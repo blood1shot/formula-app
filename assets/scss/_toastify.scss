@@ -1,0 +1,61 @@
+@import "../../node_modules/mosha-vue-toastify/dist/style.css";
+
+.mosha__toast {
+  width: 100%;
+  max-width: 276px;
+  border-radius: 8px;
+  padding: 8px;
+
+  &.success {
+    background-color: #2ECC71 !important;
+    .mosha__toast__content-wrapper {
+      &:after {
+        @include icon-mask("check", 24px, 24px, $white)
+      }
+    }
+  }
+  &.warning {
+    background-color: $orange;
+    .mosha__toast__content-wrapper {
+      &:after {
+        @include icon-mask("warning", 24px, 24px, $white)
+      }
+    }
+  }
+  &.danger {
+    background-color: $red !important;
+    .mosha__toast__content-wrapper {
+      &:after {
+        @include icon-mask("alert", 24px, 24px, $white)
+      }
+    }
+  }
+
+  .mosha__toast__content-wrapper {
+    padding: 0 5px 0 32px;
+    position: relative;
+    align-items: flex-start;
+    &:after {
+      content: "";
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      left: 0;
+      top: 7px;
+    }
+  }
+
+  .mosha__toast__content__text {
+    font-family: Titillium Web, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 23px;
+    letter-spacing: 0;
+    margin: 0;
+    color: $white;
+    padding-top: 7px;
+  }
+  .mosha__toast__progress {
+    display: none;
+  }
+}

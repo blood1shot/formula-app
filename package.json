@@ -5,23 +5,98 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint --ext .ts,.js,.vue .",
+    "lintfix": "eslint --ext .ts,.js,.vue . --fix"
   },
   "devDependencies": {
+    "@nuxt/types": "^2.16.3",
+    "@nuxt/typescript-build": "^3.0.1",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
+    "@prettier/plugin-pug": "^2.5.0",
     "@types/node": "^18.14.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-pug": "^1.2.5",
+    "eslint-plugin-vue": "^9.12.0",
+    "eslint-plugin-vue-pug": "^0.6.0",
     "nuxt": "^3.2.2",
     "prettier": "^2.8.4",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "sass": "^1.58.3",
-    "sass-loader": "^13.2.0"
+    "sass-loader": "^13.2.0",
+    "typescript": "^5.0.4",
+    "vite-plugin-eslint": "^1.8.1",
+    "vue-eslint-parser": "^9.3.0"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.4.7",
+    "@pinia/nuxt": "^0.4.10",
+    "@popperjs/core": "^2.11.7",
     "@sentry/browser": "^7.38.0",
     "@sentry/tracing": "^7.38.0",
+    "@supabase/supabase-js": "^2.22.0",
+    "@videojs-player/vue": "^1.0.0",
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
     "@vueuse/nuxt": "^9.13.0",
+    "autoprefixer": "^10.4.14",
     "dayjs": "^1.11.7",
-    "pinia": "^2.0.32"
+    "flowbite": "^1.6.5",
+    "mosha-vue-toastify": "^1.0.23",
+    "pinia": "^2.0.36",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2",
+    "v-calendar": "^3.0.3",
+    "video.js": "^8.3.0",
+    "vue3-popper": "^1.5.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "jquery": true
+    },
+    "parser": "vue-eslint-parser",
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/essential",
+      "plugin:@typescript-eslint/recommended",
+      "@nuxtjs/eslint-config-typescript",
+      "plugin:vue-pug/vue3-recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "parser": "@typescript-eslint/parser",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "vue",
+      "pug",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "quotes": [
+        "error",
+        "double"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "no-multi-spaces": [
+        "error"
+      ]
+    }
   }
 }

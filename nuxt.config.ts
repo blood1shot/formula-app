@@ -1,38 +1,68 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import eslintVitePlugin from "vite-plugin-eslint";
+
 export default defineNuxtConfig({
-    modules: [
-        '@pinia/nuxt',
-        '@vueuse/nuxt'
+  modules: [
+    "@vueuse/nuxt",
+    [
+      "@pinia/nuxt",
+      {
+        autoImports: [
+          "defineStore",
+          ["defineStore", "definePiniaStore"]
+        ]
+      }
     ],
-    app: {
-        head: {
-            htmlAttrs: {
-                lang: "en",
-            },
-            charset: "utf-8",
+    "@pinia-plugin-persistedstate/nuxt"
+  ],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {}
+    }
+  },
+  app: {
+    pageTransition: { name: "page", mode: "out-in" },
+    layoutTransition: { name: "layout", mode: "out-in" },
+    head: {
+      title: "formula-app",
+      htmlAttrs: {
+        lang: "en"
+      },
+      meta: [
+        { charset: "utf-8" },
+        {
+          name: "viewport",
+          content: "width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1, user-scalable=0, shrink-to-fit=no"
         },
-    },
-    imports: {
-        dirs: ['./stores'],
-    },
-    pinia: {
-        autoImports: ['defineStore', 'acceptHMRUpdate'],
-    },
-    runtimeConfig: {
-        public: {
-            API_BASE_URL: process.env.API_BASE_URL,
-            BASE_URL: process.env.BASE_URL,
-        },
-    },
-    css: ["@/assets/scss/styles.scss"],
-    vite: {
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    additionalData:
-                        '@import "@/assets/scss/_variables.scss"; @import "@/assets/scss/_mixins.scss";',
-                },
-            },
-        },
-    },
-})
+        {
+          name: "format-detection",
+          content: "telephone=no"
+        }
+      ]
+    }
+  },
+  runtimeConfig: {
+    public: {
+      PROJECT_URL: process.env.PROJECT_URL,
+      ANON_KEY: process.env.ANON_KEY
+    }
+  },
+  ssr: false,
+  css: ["@/assets/scss/styles.scss"],
+  vite: {
+    plugins: [eslintVitePlugin({
+      fix: true
+    })],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData:
+            "@import \"@/assets/scss/_variables.scss\";" +
+            "@import \"@/assets/scss/_fonts.scss\"; " +
+            "@import \"@/assets/scss/_mixins.scss\"; " +
+            "@import \"@/assets/scss/_media.scss\"; "
+        }
+      }
+    }
+  }
+});
