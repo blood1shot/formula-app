@@ -40,6 +40,6 @@ aside.sidebar.min-w-192.flex.flex-col.w-48.px-5.py-8.overflow-y-auto.bg-white(cl
 </template>
 <style lang="scss" scoped>
 .sidebar {
-  border-right: 1px solid #D6D6D6;
+  border-right: 1px solid $border-color;
 }
 </style>

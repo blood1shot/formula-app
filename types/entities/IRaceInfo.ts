@@ -1,4 +1,4 @@
-export interface raceInfo {
+export interface IRaceInfo {
   id: number;
   title: string;
   country: string;

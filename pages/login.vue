@@ -29,8 +29,8 @@ import {
   maxLength
 } from "@vuelidate/validators";
 import { createToast } from "mosha-vue-toastify";
-import type { loginBody } from "../types/api/loginBody";
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "@/stores/user";
+import type { loginBody } from "@/types/api/loginBody";
 import "mosha-vue-toastify/dist/style.css";
 
 const { login } = useUserStore();

@@ -12,10 +12,10 @@ nuxt-link.listing-card(:to="`news/${newsInfo.id}`")
     p.listing-card__caption-text {{ newsInfo.title }}
 </template>
 <script lang="ts" setup>
-import type { newsInfo } from "../types/entities/newsInfo";
+import type { INewsInfo } from "@/types/entities/INewsInfo";
 
 interface IProps {
-  newsInfo: newsInfo;
+  newsInfo: INewsInfo;
 }
 withDefaults(defineProps<IProps>(), {
   newsInfo: {

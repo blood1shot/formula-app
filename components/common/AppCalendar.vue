@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { Calendar } from "v-calendar";
-import { useRacesStore } from "../../stores/races";
+import { useRacesStore } from "@/stores/races";
 import "v-calendar/style.css";
 
 const { racesList } = useRacesStore();

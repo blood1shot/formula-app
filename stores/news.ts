@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { newsInfo } from "../types/entities/newsInfo";
+import type { INewsInfo } from "@/types/entities/INewsInfo";
 
 export const useNewsStore = defineStore(
   "news",
   () => {
-    const newsList = ref<newsInfo[]>([
+    const newsList = ref<INewsInfo[]>([
       {
         id: 1,
         imgSource: "https://res.cloudinary.com/prod-f2f3/ar_16:9,c_fill,dpr_1.0,f_auto,g_auto,h_563,w_1000/v1/f2/global/articles/2023/03_March/GettyImages-1239784539",

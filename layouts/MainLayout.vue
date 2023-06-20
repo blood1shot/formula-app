@@ -2,7 +2,6 @@
 .home-wrapper
   the-header
   .main-content__wrapper
-    the-sidebar
     .main-content
       slot
   the-footer

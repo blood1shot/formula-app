@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 // import type { newsInfo } from "../types/entities/newsInfo";
-import { useNewsStore } from "../stores/news";
+import { useNewsStore } from "@/stores/news";
 
 const { newsList } = useNewsStore();
 

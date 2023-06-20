@@ -80,8 +80,8 @@ const showHidePassword = (): void => {
   display: inline-block;
   &.icon_search {
     position: absolute;
-    top: 15px;
-    left: 15px;
+    top: 13px;
+    left: 13px;
     cursor: pointer;
     @include icon-mask("search", 24px, 24px, $text-color-2);
   }
@@ -95,12 +95,6 @@ const showHidePassword = (): void => {
       @include icon-mask("eye", 24px, 24px, $text-color-2);
     }
   }
-}
-.outer-div {
-  width: 100%;
-}
-.outer-div_search {
-  width: 442px;
 }
 .field-wrapper {
   position: relative;
@@ -136,7 +130,7 @@ const showHidePassword = (): void => {
     width: 100%;
     border-radius: 8px;
     padding: 13px 16px 13px 16px;
-    font-family: "Inter", sans-serif;
+    font-family: Titillium Web, sans-serif;
     font-size: 16px;
     font-weight: 500;
     line-height: 26px;
@@ -160,15 +154,15 @@ const showHidePassword = (): void => {
     border: 1px solid transparent;
     width: 100%;
     border-radius: 8px;
-    padding: 13.5px 16px 13.5px 48px;
-    font-family: "Inter", sans-serif;
+    padding: 10.5px 13px 10.5px 45px;
+    font-family: Titillium Web, sans-serif;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 26px;
     letter-spacing: 0;
     color: $text-color;
     resize: none;
-    background-color: input-background-color;
+    background-color: $white;
     @include placeholder {
       color: $text-color-2;
     }

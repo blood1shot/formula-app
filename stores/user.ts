@@ -1,17 +1,18 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { userInfo } from "../types/entities/userInfo";
-import type { createUserBody } from "../types/api/createUserBody";
+import type { CreateUserBody } from "@/types/api/CreateUserBody";
+import type { IUserInfo } from "@/types/entities/IUserInfo";
+import { UserRole } from "@/utils/enum/UserRole";
 
 export const useUserStore = defineStore(
   "user",
   () => {
     const isLogged = ref<boolean>(false);
-    const loggedUser = ref<userInfo>();
-    const usersList = ref<userInfo[]>([
+    const user = ref<IUserInfo | undefined>();
+    const usersList = ref<IUserInfo[]>([
       {
         id: 1,
-        role: "admin",
+        role: UserRole.admin,
         createdAt: Date.now(),
         firstname: "admin",
         lastname: "admin",
@@ -30,7 +31,7 @@ export const useUserStore = defineStore(
       const isUserExist = usersList.value.find(item => item.credentials.password === payload.password && item.credentials.email === payload.email);
       if (isUserExist) {
         isLogged.value = true;
-        loggedUser.value = isUserExist;
+        user.value = isUserExist;
         return true;
       } else {
         return false;
@@ -39,13 +40,13 @@ export const useUserStore = defineStore(
 
     function logout (): void {
       isLogged.value = false;
-      loggedUser.value = undefined;
+      user.value = undefined;
     }
 
-    function createUser (payload: createUserBody): void {
+    function createUser (payload: CreateUserBody): void {
       usersList.value.push({
         id: Date.now(),
-        role: "user",
+        role: UserRole.user,
         createdAt: Date.now(),
         firstname: payload.firstname,
         lastname: payload.lastname,
@@ -57,7 +58,7 @@ export const useUserStore = defineStore(
       });
     }
 
-    return { usersList, isLogged, createUser, login, logout, loggedUser };
+    return { usersList, isLogged, createUser, login, logout, user };
   }, {
     persist: true
   }

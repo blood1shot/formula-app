@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { raceInfo } from "../types/entities/raceInfo";
+import type { IRaceInfo } from "@/types/entities/IRaceInfo";
 
 export const useRacesStore = defineStore(
   "races",
   () => {
-    const racesList = ref<raceInfo[]>([
+    const racesList = ref<IRaceInfo[]>([
       {
         id: 1,
         title: "🏎 FORMULA 1 CRYPTO.COM MIAMI GRAND PRIX 2023 - Practice 1",

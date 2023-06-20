@@ -1,4 +1,4 @@
-export interface newsInfo {
+export interface INewsInfo {
   id: number;
   imgSource: string | string[];
   imgGallery?: boolean;

@@ -3,7 +3,7 @@ header.header(class="dark:border-none")
   nav.bg-white.border-gray-200.px-4(class="lg:px-6 py-2.5 dark:bg-gray-800")
     .flex.flex-wrap.justify-between.items-center.mx-auto.max-w-screen-xl
       nuxt-link.flex.items-center(to="/")
-        img.mr-3.h-6(src="@/assets/images/f1&f2.png", class="sm:h-11", alt="F2 Logo")
+        img.mr-3.h-6(src="@/assets/images/f1&f2.png", class="sm:h-11", alt="F1&F2 Logo")
         span.self-center.text-xl.font-semibold.whitespace-nowrap(
           class="dark:text-white"
         ) Formula News
@@ -11,7 +11,7 @@ header.header(class="dark:border-none")
         .text-sm.px-4.py-2.text-blue-700.font-medium.rounded-lg.username(
           v-if="userStore.isLogged"
         )
-          p {{ userStore.loggedUser.firstname }} {{ userStore.loggedUser.lastname }}
+          p {{ userStore.user?.firstname }} {{ userStore.user?.lastname }}
         button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-4.py-2.ml-2(
           v-if="userStore.isLogged",
           class="hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:px-5 lg:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800",
@@ -57,26 +57,33 @@ header.header(class="dark:border-none")
           li
             nuxt-link.block.py-2.pr-4.pl-3.text-gray-700.border-b.border-gray-100(
               to="/",
+              active-class="link_active",
               class="hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700",
               aria-current="page"
             ) Home
           li
             nuxt-link.block.py-2.pr-4.pl-3.text-gray-700.border-b.border-gray-100(
               to="/calendar",
+              active-class="link_active",
               class="hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
             ) Calendar
           li
             nuxt-link.block.py-2.pr-4.pl-3.text-gray-700.border-b.border-gray-100(
               to="/fantasy",
-              class="hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              active-class="link_active",
+              :class="[{ link_active: isFantasy }, 'hover:bg-gray-50', 'lg:hover:bg-transparent', 'lg:border-0', 'lg:hover:text-blue-700', 'lg:p-0', 'dark:text-gray-400', 'lg:dark:hover:text-white', 'dark:hover:bg-gray-700', 'dark:hover:text-white', 'lg:dark:hover:bg-transparent', 'dark:border-gray-700']"
             ) Fantasy League
 </template>
 <script lang="ts" setup>
 import { createToast } from "mosha-vue-toastify";
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "@/stores/user";
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
+const isFantasy = computed<boolean>(
+  () => route.path.includes("fantasy")
+);
 
 const userLogout = () => {
   userStore.logout();
@@ -86,9 +93,9 @@ const userLogout = () => {
 </script>
 <style lang="scss" scoped>
 .header {
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1px solid $border-color;
 }
-.router-link-exact-active {
+.link_active {
   color: $primary;
 }
 .username {

@@ -17,7 +17,7 @@ aside.aside
     a(href="/") View all latest news
 </template>
 <script lang="ts" setup>
-import { useNewsStore } from "../stores/news";
+import { useNewsStore } from "@/stores/news";
 
 const { latestNews } = useNewsStore();
 </script>

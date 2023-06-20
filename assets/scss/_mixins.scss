@@ -54,7 +54,7 @@
 @mixin icon-mask($image, $width: 19px, $height: 19px, $color: rgb(0, 0, 0, 0.75)) {
   width: $width;
   height: $height;
-  mask-image: url("../../assets/icons/#{$image}.svg");
+  mask-image: url("@/assets/icons/#{$image}.svg");
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;

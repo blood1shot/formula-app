@@ -10,9 +10,6 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "paths": {
-      "@*": ["/*"],
-    },
     "types": [
       "@nuxt/types"
     ],

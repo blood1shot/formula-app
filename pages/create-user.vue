@@ -34,14 +34,14 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, helpers, maxLength } from "@vuelidate/validators";
 import { createToast } from "mosha-vue-toastify";
-import type { createUserBody } from "../types/api/createUserBody";
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "@/stores/user";
+import type { CreateUserBody } from "@/types/api/CreateUserBody";
 import "mosha-vue-toastify/dist/style.css";
 
 const { createUser } = useUserStore();
 const router = useRouter();
 
-const form: createUserBody = reactive({
+const form: CreateUserBody = reactive({
   firstname: "",
   lastname: "",
   email: "",

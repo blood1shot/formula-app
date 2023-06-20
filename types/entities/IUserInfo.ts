@@ -1,4 +1,4 @@
-export interface userInfo {
+export interface IUserInfo {
   id: number;
   role: string;
   createdAt: number;
