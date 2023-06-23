@@ -37,7 +37,6 @@
             button.teams__list-item_add-new +
 </template>
 <script lang="ts" setup>
-import { watch } from "vue";
 import type { IPlayerInfo } from "@/types/entities/fantasy/IPlayerInfo";
 import type { IConstructorInfo } from "@/types/entities/fantasy/IConstructorInfo";
 import { useFantasyStore } from "@/stores/fantasy";
@@ -50,7 +49,6 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 const { playersList, constructorsList } = useFantasyStore();
-const sortedList = props.type === "drivers" ? ref<IPlayerInfo[]>(playersList) : ref<IConstructorInfo[]>(constructorsList);
 const search = ref<string>("");
 const pickedFilter = ref<boolean>(true);
 const pickedFilterDisabled = ref<boolean>(false);
@@ -59,64 +57,71 @@ const seasonFilterDisabled = ref<boolean>(false);
 const valueFilter = ref<boolean>(true);
 const valueFilterDisabled = ref<boolean>(false);
 
-watch(search, (newV) => {
-  if (props.type === "drivers") {
-    sortedList.value = playersList.filter((item: IPlayerInfo) => item.name.toLowerCase().includes(newV.toLowerCase()));
-  } else {
-    sortedList.value = constructorsList.filter((item: IConstructorInfo) => item.name.toLowerCase().includes(newV.toLowerCase()));
-  }
-});
-watch(pickedFilter, (newV) => {
+watch(pickedFilter, () => {
   pickedFilterDisabled.value = true;
   valueFilterDisabled.value = false;
   seasonFilterDisabled.value = false;
-  if (newV) {
-    if (props.type === "drivers") {
-      sortedList.value = playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(a.picked) - parseFloat(b.picked));
-    } else {
-      sortedList.value = constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(a.picked) - parseFloat(b.picked));
-    }
-  } if (!newV) {
-    if (props.type === "drivers") {
-      sortedList.value = playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(b.picked) - parseFloat(a.picked));
-    } else {
-      sortedList.value = constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(b.picked) - parseFloat(a.picked));
-    }
-  }
 });
-watch(seasonFilter, (newV) => {
+watch(seasonFilter, () => {
   pickedFilterDisabled.value = false;
   valueFilterDisabled.value = false;
   seasonFilterDisabled.value = true;
-  if (newV) {
-    if (props.type === "drivers") {
-      sortedList.value = playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(a.season_points) - parseFloat(b.season_points));
-    } else {
-      sortedList.value = constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(a.season_points) - parseFloat(b.season_points));
-    }
-  } if (!newV) {
-    if (props.type === "drivers") {
-      sortedList.value = playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(b.season_points) - parseFloat(a.season_points));
-    } else {
-      sortedList.value = constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(b.season_points) - parseFloat(a.season_points));
-    }
-  }
 });
-watch(valueFilter, (newV) => {
+watch(valueFilter, () => {
   seasonFilterDisabled.value = false;
   pickedFilterDisabled.value = false;
   valueFilterDisabled.value = true;
-  if (newV) {
-    if (props.type === "drivers") {
-      sortedList.value = playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(a.value) - parseFloat(b.value));
-    } else {
-      sortedList.value = constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(a.value) - parseFloat(b.value));
+});
+
+const sortedList = computed<IPlayerInfo[] | IConstructorInfo[]>(() => {
+  if (props.type === "drivers") {
+    if (search.value.length) {
+      return playersList.filter((item: IPlayerInfo) => item.name.toLowerCase().includes(search.value.toLowerCase()));
     }
-  } if (!newV) {
-    if (props.type === "drivers") {
-      sortedList.value = playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(b.value) - parseFloat(a.value));
+    if (pickedFilter.value && pickedFilterDisabled.value) {
+      return playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(a.picked) - parseFloat(b.picked));
+    }
+    if (pickedFilter.value === false && pickedFilterDisabled.value) {
+      return playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(b.picked) - parseFloat(a.picked));
+    }
+    if (seasonFilter.value && seasonFilterDisabled.value) {
+      return playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(a.season_points) - parseFloat(b.season_points));
+    }
+    if (seasonFilter.value === false && seasonFilterDisabled.value) {
+      return playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(b.season_points) - parseFloat(a.season_points));
+    }
+    if (valueFilter.value && valueFilterDisabled.value) {
+      return playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(a.value) - parseFloat(b.value));
+    }
+    if (valueFilter.value === false && valueFilterDisabled.value) {
+      return playersList.sort((a: IPlayerInfo, b: IPlayerInfo) => parseFloat(b.value) - parseFloat(a.value));
     } else {
-      sortedList.value = constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(b.value) - parseFloat(a.value));
+      return playersList;
+    }
+  }
+  if (props.type === "constructors") {
+    if (search.value.length) {
+      return constructorsList.filter((item: IConstructorInfo) => item.name.toLowerCase().includes(search.value.toLowerCase()));
+    }
+    if (pickedFilter.value && pickedFilterDisabled.value) {
+      return constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(a.picked) - parseFloat(b.picked));
+    }
+    if (pickedFilter.value === false && pickedFilterDisabled.value) {
+      return constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(b.picked) - parseFloat(a.picked));
+    }
+    if (seasonFilter.value && seasonFilterDisabled.value) {
+      return constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(a.season_points) - parseFloat(b.season_points));
+    }
+    if (seasonFilter.value === false && seasonFilterDisabled.value) {
+      return constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(b.season_points) - parseFloat(a.season_points));
+    }
+    if (valueFilter.value && valueFilterDisabled.value) {
+      return constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(a.value) - parseFloat(b.value));
+    }
+    if (valueFilter.value === false && valueFilterDisabled.value) {
+      return constructorsList.sort((a: IConstructorInfo, b: IConstructorInfo) => parseFloat(b.value) - parseFloat(a.value));
+    } else {
+      return constructorsList;
     }
   }
 });
