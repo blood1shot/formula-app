@@ -46,8 +46,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      PROJECT_URL: process.env.PROJECT_URL,
-      ANON_KEY: process.env.ANON_KEY
+      VUE_APP_API_URL: process.env.VUE_APP_API_URL
     }
   },
   ssr: false,

@@ -1,6 +1,7 @@
 <template lang="pug">
 .login-form__wrapper.h-screen.pt-16(class="w-1/3")
-  .login-form__content.rounded-xl.p-5.bg-white
+  form.login-form__content.rounded-xl.p-5.bg-white(@submit.prevent="createNewUser")
+    p.text-sm <nuxt-link href="/" class="underline text-blue-700">← Go back to home</nuxt-link>
     h1.text-3xl.text-center.mb-5 Sign Up
     common-app-input.mb-5(
       v-model="form.firstname",
@@ -26,19 +27,25 @@
     )
     button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-4.py-2.mr-2.w-full(
       class="hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:px-5 lg:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800",
-      @click="createNewUser"
-    ) Create
+      type="submit"
+      :disabled="loading"
+    )
+      .inline-block.h-8.w-8.animate-spin.rounded-full.border-4.border-solid.border-current.border-r-transparent(v-if="loading" class="align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status")
+        span(class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]") Loading...
+      p(v-else) Create
     p.mt-3.text-sm.text-slate-400.text-center Already have an account? <nuxt-link href="/login" class="underline text-blue-700">Sign In Now</nuxt-link>
 </template>
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, helpers, maxLength } from "@vuelidate/validators";
 import { createToast } from "mosha-vue-toastify";
-import { useUserStore } from "@/stores/user";
 import type { CreateUserBody } from "@/types/api/CreateUserBody";
 import "mosha-vue-toastify/dist/style.css";
+import { useUserStore } from "@/stores/user";
+import authApi from "@/services/authApi";
 
-const { createUser } = useUserStore();
+const userStore = useUserStore();
+
 const router = useRouter();
 
 const form: CreateUserBody = reactive({
@@ -81,12 +88,28 @@ const rules = computed(() => ({
 }));
 
 const v$ = useVuelidate(rules, form);
+
+const loading: Ref<boolean> = ref(false);
 const createNewUser = () => {
+  if (loading.value) {
+    return;
+  }
   v$.value.$validate();
   if (!v$.value.$invalid) {
-    createUser(form);
-    router.push({ path: "/login" });
-    createToast("Succesfully created", { type: "success" });
+    loading.value = true;
+    authApi
+      .createUser({ ...form })
+      .then((res) => {
+        // eslint-disable-next-line camelcase
+        const { access_token, refresh_token } = res.data;
+        // eslint-disable-next-line camelcase
+        userStore.setTokens({ access_token, refresh_token });
+        router.push({ path: "/" });
+        createToast("Created succesfully", { type: "success" });
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   }
 };
 
