@@ -24,7 +24,7 @@ const route = useRoute();
 
 definePageMeta({
   layout: "main-layout",
-  middleware: ["auth", "fantasy"]
+  middleware: ["auth"]
 });
 </script>
 <style lang="scss" scoped>

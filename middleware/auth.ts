@@ -1,4 +1,3 @@
-// import { useUserStore } from "@/stores/user";
 import authApi from "@/services/authApi";
 
 export default defineNuxtRouteMiddleware((to) => {
@@ -6,8 +5,10 @@ export default defineNuxtRouteMiddleware((to) => {
     authApi
       .verifyAccess()
       .then(() => {
-        navigateTo("/fantasy");
+        navigateTo("/fantasy/how-to-play");
+      })
+      .catch(() => {
+        return navigateTo("/login");
       });
-    return navigateTo("/login");
   }
 });
