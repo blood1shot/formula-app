@@ -1,8 +1,14 @@
-import { useUserStore } from "@/stores/user";
+import authApi from "@/services/authApi";
 
 export default defineNuxtRouteMiddleware((to) => {
-  const { isLogged } = useUserStore();
-  if (to.path === "/fantasy" && !isLogged) {
-    return navigateTo("/login");
+  if (to.path === "/fantasy") {
+    authApi
+      .verifyAccess()
+      .then(() => {
+        navigateTo("/fantasy/how-to-play");
+      })
+      .catch(() => {
+        return navigateTo("/login");
+      });
   }
 });

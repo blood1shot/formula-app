@@ -77,8 +77,8 @@ header.header(class="dark:border-none")
 <script lang="ts" setup>
 import { createToast } from "mosha-vue-toastify";
 import { useUserStore } from "@/stores/user";
+import authApi from "@/services/authApi";
 
-const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
 const isFantasy = computed<boolean>(
@@ -86,9 +86,12 @@ const isFantasy = computed<boolean>(
 );
 
 const userLogout = () => {
-  userStore.logout();
-  router.push({ path: "/" });
-  createToast("Logged out succesfully", { type: "success" });
+  authApi
+    .logout(userStore.access_token)
+    .then(() => {
+      userStore.clear();
+      createToast("Logged out succesfully", { type: "success" });
+    });
 };
 </script>
 <style lang="scss" scoped>

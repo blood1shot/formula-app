@@ -1,25 +1,37 @@
-FROM node:18.7
+FROM node:18
 
-ARG API_BASE_URL
-ARG BASE_URL
+WORKDIR /app
 
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
-ENV API_BASE_URL $API_BASE_URL
-ENV BASE_URL $BASE_URL
+COPY ./package*.json /app/
 
-WORKDIR /usr/src/app
-
-# install app dependencies
-COPY package*.json ./
 RUN yarn install
 
-# add app
-COPY ./ ./
+COPY . .
 
-RUN node_modules/nuxt/bin/nuxt.mjs build
+# ENV PATH ./node_modules/.bin/:$PATH
 
-EXPOSE 3000
+# FROM node:18.7
 
-# start app
-CMD node .output/server/index.mjs
+# ARG API_BASE_URL
+# ARG BASE_URL
+
+# ENV NUXT_HOST=0.0.0.0
+# ENV NUXT_PORT=4000
+# ENV API_BASE_URL $API_BASE_URL
+# ENV BASE_URL $BASE_URL
+
+# WORKDIR /usr/src/app
+
+# # install app dependencies
+# COPY package*.json ./
+# RUN yarn install
+
+# # add app
+# COPY ./ ./
+
+# RUN yarn serve
+
+# EXPOSE 3000
+
+# # start app
+# CMD node .output/server/index.mjs
