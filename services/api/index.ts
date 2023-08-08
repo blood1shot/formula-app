@@ -55,7 +55,6 @@ axiosClient.interceptors.response.use(
     if (error.response.status === 401) {
       if (refreshToken) {
         if (!isRefreshing) {
-          console.log("refreshing");
           isRefreshing = true;
           authApi
             .refreshToken({
@@ -64,13 +63,11 @@ axiosClient.interceptors.response.use(
             .then((res) => {
               const { access_token, refresh_token } = res.data;
               userStore.setTokens({ access_token, refresh_token });
-              console.log("res.data :" + res.data);
               isRefreshing = false;
               onRefreshed(access_token);
               subscribers = [];
             })
-            .catch((e) => {
-              console.log("error :" + e.message);
+            .catch(() => {
               userStore.clear();
               router.push({ name: "login" });
             });

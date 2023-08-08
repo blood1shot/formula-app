@@ -39,7 +39,6 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, helpers, maxLength } from "@vuelidate/validators";
 import { createToast } from "mosha-vue-toastify";
-import type { CreateUserBody } from "@/types/api/CreateUserBody";
 import "mosha-vue-toastify/dist/style.css";
 import { useUserStore } from "@/stores/user";
 import authApi from "@/services/authApi";
@@ -100,10 +99,7 @@ const createNewUser = () => {
     authApi
       .createUser({ ...form })
       .then((res) => {
-        // eslint-disable-next-line camelcase
-        const { access_token, refresh_token } = res.data;
-        // eslint-disable-next-line camelcase
-        userStore.setTokens({ access_token, refresh_token });
+        userStore.setTokens({ accessToken: res.data.access_token, refreshToken: res.data.refresh_token });
         router.push({ path: "/" });
         createToast("Created succesfully", { type: "success" });
       })

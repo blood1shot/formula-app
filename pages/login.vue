@@ -3,6 +3,49 @@
   form.login-form__content.rounded-xl.p-5.bg-white(@submit.prevent="loginUser")
     p.text-sm <nuxt-link href="/" class="underline text-blue-700">← Go back to home</nuxt-link>
     h1.text-3xl.text-center.mb-5 Sign in
+    common-test-input.mb-5(
+      v-model="form.email",
+      type="email",
+      label="Email",
+      placeholder="Email",
+      :error-message="v$.email.$errors[0]?.$message"
+    )
+    common-test-input.mb-5(
+      v-model="form.email",
+      type="password",
+      label="Password",
+      placeholder="Enter Password",
+      :error-message="v$.email.$errors[0]?.$message"
+    )
+    common-test-input.mb-5(
+      v-model="form.email",
+      type="phone",
+      label="Phone",
+      placeholder="Enter phone number",
+      :error-message="v$.email.$errors[0]?.$message"
+    )
+    common-test-input.mb-5(
+      v-model="form.email",
+      type="card",
+      label="Your Card",
+      placeholder="Enter card number",
+      :error-message="'Error'"
+    )
+    common-test-input.mb-5(
+      v-model="form.email",
+      type="search",
+      placeholder="Search"
+    )
+    common-test-input.mb-5(
+      v-model="form.email",
+      placeholder="Without icon"
+    )
+    common-test-input.mb-5(
+      v-model="form.email",
+      :disabled="true",
+      placeholder="Disabled"
+    )
+    p.mb-5 ^^^^^^^^^^^^^^^^^^^^^
     common-app-input.mb-5(
       v-model="form.email",
       placeholder="Email",
@@ -79,13 +122,13 @@ const loginUser = () => {
     authApi
       .login({ ...form })
       .then((res) => {
-        // eslint-disable-next-line camelcase
-        const { access_token, refresh_token } = res.data;
-        // eslint-disable-next-line camelcase
-        userStore.setTokens({ access_token, refresh_token });
+        userStore.setTokens({ accessToken: res.data.access_token, refreshToken: res.data.refresh_token });
         router.push({ path: "/" });
         createToast("Logged in succesfully", { type: "success" });
       })
+      // .catch((err) => {
+
+      // })
       .finally(() => {
         loading.value = false;
       });

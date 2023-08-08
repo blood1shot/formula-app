@@ -37,8 +37,6 @@
             button.teams__list-item_add-new +
 </template>
 <script lang="ts" setup>
-import type { IPlayerInfo } from "@/types/entities/fantasy/IPlayerInfo";
-import type { IConstructorInfo } from "@/types/entities/fantasy/IConstructorInfo";
 import { useFantasyStore } from "@/stores/fantasy";
 
 interface IProps {
